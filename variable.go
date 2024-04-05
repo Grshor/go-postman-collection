@@ -16,6 +16,7 @@ type Variable struct {
 func CreateVariable(name string, value string) *Variable {
 	return &Variable{
 		Name:  name,
+		Key:   name,
 		Value: value,
 		Type:  "string",
 	}
