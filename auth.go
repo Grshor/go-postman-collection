@@ -144,8 +144,8 @@ func (a *Auth) setParams(params []*AuthParam) {
 
 // UnmarshalJSON parses the JSON-encoded data and create an Auth from it.
 // Depending on the Postman Collection version, an auth property can either be an array or an object.
-//    - v2.1.0 : Array
-//    - v2.0.0 : Object
+//   - v2.1.0 : Array
+//   - v2.0.0 : Object
 func (a *Auth) UnmarshalJSON(b []byte) (err error) {
 	var tmp mAuth
 	err = json.Unmarshal(b, &tmp)
@@ -210,7 +210,6 @@ func unmarshalAuthParam(b []byte) (a []*AuthParam, err error) {
 // MarshalJSON returns the JSON encoding of a Auth.
 // If the version is v2.0.0 it is returned as an object, otherwise as an array (v2.1.0).
 func (a Auth) MarshalJSON() ([]byte, error) {
-
 	if a.version == V200 {
 		return json.Marshal(authV200{
 			Type:   a.Type,
@@ -247,6 +246,10 @@ func authParamsToMap(authParams []*AuthParam) map[string]interface{} {
 
 	for _, authParam := range authParams {
 		authParamsMap[authParam.Key] = authParam.Value
+		if len(authParams) == 1 {
+			authParamsMap["key"] = authParam.Key
+			authParamsMap["value"] = authParam.Value
+		}
 	}
 
 	return authParamsMap
